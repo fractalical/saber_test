@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+    api:
+        build:
+          context: .
+          dockerfile: docker/api/Dockerfile
+
+        restart: always
+
+        env_file:
+          - .env
+        volumes:
+          - ./secrets:/usr/src/app/secrets
+        ports:
+          - 5555:5000
+        command: [
+          "poetry", "run", "uvicorn", "app:create_app",
+          "--host", "0.0.0.0",
+          "--port", '5000'
+        ]
