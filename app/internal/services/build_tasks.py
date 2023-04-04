@@ -1,3 +1,5 @@
+from typing import List
+
 import yaml
 
 from app.configuration.logger_settings import app_log
@@ -27,7 +29,7 @@ class Tasks:
             raise BuildNotFound
 
     @staticmethod
-    async def read_tasks(build_tasks: models.BuildTasks) -> list[models.Task]:
+    async def read_tasks(build_tasks: models.BuildTasks) -> List[models.Task]:
 
         # читаем yaml файл
         with open("builds/tasks.yaml", "r") as file:
@@ -45,7 +47,7 @@ class Tasks:
         return result
 
     @staticmethod
-    async def topological_sort(tasks: list[models.Task]) -> models.BuildTasks:
+    async def topological_sort(tasks: List[models.Task]) -> models.BuildTasks:
 
         # Создаем множество для хранения невыполненных задач
         remaining_tasks = set()
