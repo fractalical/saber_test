@@ -10,7 +10,7 @@ services:
         env_file:
           - .env
         volumes:
-          - ./secrets:/usr/src/app/secrets
+          - .:/usr/src/app
         ports:
           - 5555:5000
         command: [

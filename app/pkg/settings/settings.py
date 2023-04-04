@@ -29,6 +29,10 @@ class Settings(_Settings):
     #: SecretStr: secret x-token for authority.
     X_API_TOKEN: SecretStr
 
+    FILE_NAME: str
+
+    LEVEL: int
+
 
 @lru_cache()
 def get_settings(env_file: str = ".env") -> Settings:

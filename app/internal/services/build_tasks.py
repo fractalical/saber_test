@@ -1,5 +1,6 @@
 import yaml
 
+from app.configuration.logger_settings import app_log
 from app.pkg import models
 from app.pkg.models.exceptions import (BuildNotFound, CircularDependency,
                                        EmptyBuildName)
@@ -22,6 +23,7 @@ class Tasks:
 
                 return models.BuildTasks(tasks=build_tasks)
         else:
+            app_log.error(f"404 Build {cmd.build} not found.")
             raise BuildNotFound
 
     @staticmethod
@@ -64,6 +66,7 @@ class Tasks:
                            not dependencies[task]]
             if not ready_tasks:
                 # Если таких задач нет, значит есть циклическая зависимость
+                app_log.warning(f"508 Circular dependency detected.")
                 raise CircularDependency
             # Добавляем найденную задачу в список отсортированных задач
             sorted_tasks.extend(sorted(ready_tasks))
@@ -78,6 +81,7 @@ class Tasks:
     async def get_build_tasks(self, cmd: models.BuildName) -> models.BuildTasks:
 
         if not cmd.build:
+            app_log.error(f"400 Empty build name.")
             raise EmptyBuildName
 
         build_tasks = await self.read_builds_file(cmd)
