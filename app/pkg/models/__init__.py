@@ -1,2 +1,2 @@
-from .task import *
 from .build import *
+from .task import *

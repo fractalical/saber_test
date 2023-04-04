@@ -7,8 +7,9 @@ from app.internal.routes import __routes__
 
 __all__ = ["Server"]
 
+from app.internal.pkg.middlewares.handle_http_exceptions import (
+    handle_api_exceptions, handle_internal_exception)
 from app.pkg.models.base import BaseAPIException
-from app.internal.pkg.middlewares.handle_http_exceptions import handle_api_exceptions, handle_internal_exception
 
 FastAPIInstance = TypeVar("FastAPIInstance", bound="FastAPI")
 

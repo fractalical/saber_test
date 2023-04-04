@@ -33,7 +33,8 @@ def handle_api_exceptions(request: Request, exc: BaseAPIException):
     `BaseAPIException`."""
     _ = request
 
-    return JSONResponse(status_code=exc.status_code, content={"message": exc.message})
+    return JSONResponse(status_code=exc.status_code,
+                        content={"message": exc.message})
 
 
 def handle_internal_exception(request: Request, exc: Exception):

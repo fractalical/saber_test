@@ -15,7 +15,7 @@ __all__ = [
 
 
 class BuildFields:
-    name = Field(description='Build name')
+    build = Field(description='Build name')
     tasks = Field(description='Tasks of build')
 
 
@@ -24,7 +24,7 @@ class BaseBuild(BaseModel):
 
 
 class BuildName(BaseBuild):
-    name: str = BuildFields.name
+    build: str = BuildFields.build
 
 
 class BuildTasks(BaseBuild):
@@ -32,5 +32,5 @@ class BuildTasks(BaseBuild):
 
 
 class Build(BaseBuild):
-    name: str = BuildFields.name
+    build: str = BuildFields.build
     tasks: List[str] = BuildFields.tasks

@@ -6,12 +6,12 @@ from fastapi import APIRouter, Depends, status
 from app.internal import services
 from app.pkg import models
 
-router = APIRouter(prefix="/users", tags=["Users"])
+router = APIRouter(prefix="/build", tags=["Build"])
 
 
 @router.post(
-    '/registration',
-    response_model=models.BuildTasks,
+    '/get_tasks',
+    response_model=List[str],
     status_code=status.HTTP_200_OK,
     summary="Get tasks of build.",
 )
@@ -20,4 +20,5 @@ async def registration(
         build: models.BuildName,
         get_tasks: services.Tasks = Depends(Provide[services.Services.tasks])
 ):
-    return await get_tasks.get_build_tasks(build)
+    tasks = await get_tasks.get_build_tasks(build)
+    return tasks.tasks
