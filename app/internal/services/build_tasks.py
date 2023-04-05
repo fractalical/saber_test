@@ -1,4 +1,3 @@
-from pprint import pprint
 from typing import List
 
 import yaml
@@ -29,7 +28,7 @@ class Tasks:
 
                 return models.BuildTasks(tasks=build_tasks)
         else:
-            app_log.error(f"404 Build not found.")
+            app_log.error("404 Build not found.")
             raise BuildNotFound
 
     @staticmethod
@@ -74,7 +73,7 @@ class Tasks:
                            not dependencies[task]]
             if not ready_tasks:
                 # Если таких задач нет, значит есть циклическая зависимость
-                app_log.warning(f"508 Circular dependency detected.")
+                app_log.warning("508 Circular dependency detected.")
                 raise CircularDependency
             # Добавляем найденную задачу в список отсортированных задач
             sorted_tasks.extend(sorted(ready_tasks))
@@ -85,10 +84,11 @@ class Tasks:
                 dependencies[task].difference_update(ready_tasks)
         return models.BuildTasks(tasks=sorted_tasks)
 
-    async def get_build_tasks(self, build: models.BuildName) -> models.BuildTasks:
+    async def get_build_tasks(self,
+                              build: models.BuildName) -> models.BuildTasks:
 
         if not build.build:
-            app_log.error(f"400 Empty build name.")
+            app_log.error("400 Empty build name.")
             raise EmptyBuildName
 
         build_tasks = await self._read_builds_file(build)
