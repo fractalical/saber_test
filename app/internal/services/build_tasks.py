@@ -16,21 +16,24 @@ __all__ = [
 class Tasks:
 
     @staticmethod
-    async def read_builds_file(cmd: models.BuildName) -> models.BuildTasks:
+    async def _read_builds_file(build: models.BuildName) -> models.BuildTasks:
+
+        # читаем файл с билдами
         with open('builds/builds.yaml', 'r') as file:
             data = yaml.safe_load(file)
 
+        # находим нужный билд и возвращаем его
         for build in data['builds']:
-            if build['name'] == cmd.build:
+            if build['name'] == build.build:
                 build_tasks = build['tasks']
 
                 return models.BuildTasks(tasks=build_tasks)
         else:
-            app_log.error(f"404 Build {cmd.build} not found.")
+            app_log.error(f"404 Build not found.")
             raise BuildNotFound
 
     @staticmethod
-    async def read_tasks(build_tasks: models.BuildTasks) -> List[models.Task]:
+    async def _read_tasks(build_tasks: models.BuildTasks) -> List[models.Task]:
 
         # читаем yaml файл
         with open("builds/tasks.yaml", "r") as file:
@@ -50,7 +53,7 @@ class Tasks:
         return result
 
     @staticmethod
-    async def topological_sort(tasks: List[models.Task]) -> models.BuildTasks:
+    async def _topological_sort(tasks: List[models.Task]) -> models.BuildTasks:
 
         # Создаем множество для хранения невыполненных задач
         remaining_tasks = set()
@@ -82,14 +85,14 @@ class Tasks:
                 dependencies[task].difference_update(ready_tasks)
         return models.BuildTasks(tasks=sorted_tasks)
 
-    async def get_build_tasks(self, cmd: models.BuildName) -> models.BuildTasks:
+    async def get_build_tasks(self, build: models.BuildName) -> models.BuildTasks:
 
-        if not cmd.build:
+        if not build.build:
             app_log.error(f"400 Empty build name.")
             raise EmptyBuildName
 
-        build_tasks = await self.read_builds_file(cmd)
-        tasks = await self.read_tasks(build_tasks)
-        sort_tasks = await self.topological_sort(tasks)
+        build_tasks = await self._read_builds_file(build)
+        tasks = await self._read_tasks(build_tasks)
+        sort_tasks = await self._topological_sort(tasks)
 
         return sort_tasks
