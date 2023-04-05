@@ -6,7 +6,7 @@ import yaml
 from app.configuration.logger_settings import app_log
 from app.pkg import models
 from app.pkg.models.exceptions import (BuildNotFound, CircularDependency,
-                                       EmptyBuildName)
+                                       EmptyBuildName, NotFoundTask)
 
 __all__ = [
     "Tasks",
@@ -44,6 +44,8 @@ class Tasks:
                     name=task["name"],
                     dependencies=task.get("dependencies", [])
                 ))
+        if len(result) != len(build_tasks.tasks):
+            raise NotFoundTask
 
         return result
 
