@@ -37,15 +37,19 @@ poetry install
 uvicorn app:create_app --host 127.0.0.1 --port 8000
 ```
 ## Тестирование
-Из браузера по ссылке
+- Из браузера по ссылке
 ```
 http://HOST:PORT/docs
 ```
-При отправке запросов
+Нужно вставить X_API_TOKEN в Authorize
+
+![img_2.png](static/img_2.png)
+
+- При отправке запросов
 ```
 request.post(url=http://HOST:PORT/build/get_tasks, headers={'X-API-TOKEN': ...}, json={'build': 'name'})
 ```
-С помощью pytest
+- С помощью pytest
 ```
 pytest .
 ```
