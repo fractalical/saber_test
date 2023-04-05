@@ -1,3 +1,4 @@
+from pprint import pprint
 from typing import List
 
 import yaml
@@ -77,7 +78,6 @@ class Tasks:
             # Удаляем найденную задачу из зависимостей оставшихся задач
             for task in remaining_tasks:
                 dependencies[task].difference_update(ready_tasks)
-        # print('SORTED LIST', sorted_tasks)
         return models.BuildTasks(tasks=sorted_tasks)
 
     async def get_build_tasks(self, cmd: models.BuildName) -> models.BuildTasks:

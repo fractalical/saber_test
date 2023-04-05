@@ -36,11 +36,16 @@ poetry install
 ```
 uvicorn app:create_app --host 127.0.0.1 --port 8000
 ```
-Тестирование приложения возможно из браузера по ссылке
+## Тестирование
+Из браузера по ссылке
 ```
 http://HOST:PORT/docs
 ```
-Либо при отправке запросов
+При отправке запросов
 ```
-request.post(url=http://HOST:PORT/build/get_tasks, headers={'X_API_TOKEN': ...}, json={'build': 'name'})
+request.post(url=http://HOST:PORT/build/get_tasks, headers={'X-API-TOKEN': ...}, json={'build': 'name'})
+```
+С помощью pytest
+```
+pytest .
 ```

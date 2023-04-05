@@ -6,7 +6,7 @@ from app.pkg.settings import settings
 
 __all__ = ["get_x_token_key"]
 
-x_api_key_header = APIKeyHeader(name="X-ACCESS-TOKEN")
+x_api_key_header = APIKeyHeader(name="X-API-TOKEN")
 
 
 async def get_x_token_key(
